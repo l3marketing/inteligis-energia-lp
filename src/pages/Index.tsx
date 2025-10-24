@@ -4,6 +4,7 @@ import PainSection from "@/components/PainSection";
 import HowItWorks from "@/components/HowItWorks";
 import SavingsCalculator from "@/components/SavingsCalculator";
 import SocialProof from "@/components/SocialProof";
+import Testimonials from "@/components/Testimonials";
 import Guarantees from "@/components/Guarantees";
 import Partnership from "@/components/Partnership";
 import FAQ from "@/components/FAQ";
@@ -20,6 +21,7 @@ const Index = () => {
       <HowItWorks />
       <SavingsCalculator />
       <SocialProof />
+      <Testimonials />
       <Guarantees />
       <Partnership />
       <FAQ />

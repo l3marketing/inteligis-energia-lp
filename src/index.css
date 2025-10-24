@@ -17,18 +17,18 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 221 39% 11%;
 
-    /* Trust Blue - Primary color */
-    --primary: 221 63% 32%;
+    /* Inteligis Blue - Primary color */
+    --primary: 203 100% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 221 63% 45%;
+    --primary-light: 234 79% 63%;
     
     /* Savings Green - Action/CTA color */
     --secondary: 158 64% 52%;
     --secondary-foreground: 0 0% 100%;
     
-    /* Energy Yellow - Highlights */
-    --accent: 38 92% 50%;
-    --accent-foreground: 221 39% 11%;
+    /* Inteligis Purple - Accent */
+    --accent: 250 76% 63%;
+    --accent-foreground: 0 0% 100%;
     
     --muted: 220 13% 95%;
     --muted-foreground: 220 9% 46%;
@@ -38,16 +38,16 @@ All colors MUST be HSL.
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 221 63% 32%;
+    --ring: 203 100% 39%;
 
     --radius: 0.75rem;
     
     /* Custom gradient for hero */
-    --gradient-hero: linear-gradient(135deg, hsl(221 63% 32%) 0%, hsl(221 63% 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(203 100% 39%) 0%, hsl(234 79% 63%) 100%);
     
     /* Shadows */
-    --shadow-elevated: 0 10px 40px -10px hsl(221 63% 32% / 0.15);
-    --shadow-card: 0 4px 20px -2px hsl(221 63% 32% / 0.08);
+    --shadow-elevated: 0 10px 40px -10px hsl(203 100% 39% / 0.15);
+    --shadow-card: 0 4px 20px -2px hsl(203 100% 39% / 0.08);
 
     --sidebar-background: 0 0% 98%;
 
@@ -76,9 +76,9 @@ All colors MUST be HSL.
     --popover: 221 39% 14%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 221 63% 45%;
+    --primary: 203 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 221 63% 55%;
+    --primary-light: 234 79% 70%;
 
     --secondary: 158 64% 52%;
     --secondary-foreground: 0 0% 100%;
@@ -86,7 +86,7 @@ All colors MUST be HSL.
     --muted: 221 39% 18%;
     --muted-foreground: 220 9% 65%;
 
-    --accent: 38 92% 50%;
+    --accent: 250 76% 68%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50%;
@@ -94,9 +94,9 @@ All colors MUST be HSL.
 
     --border: 221 39% 18%;
     --input: 221 39% 18%;
-    --ring: 221 63% 45%;
+    --ring: 203 100% 50%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(221 63% 35%) 0%, hsl(221 63% 50%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(203 100% 45%) 0%, hsl(234 79% 63%) 100%);
     
     --shadow-elevated: 0 10px 40px -10px hsl(0 0% 0% / 0.3);
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.2);

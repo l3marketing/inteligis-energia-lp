@@ -1,4 +1,5 @@
-import { Building2, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import logoInteligis from "@/assets/logo-inteligis.jpg";
 
 const Footer = () => {
   return (
@@ -7,9 +8,8 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Building2 className="w-8 h-8 text-secondary" />
-              <span className="text-2xl font-bold">Inteligis Energia</span>
+            <div className="mb-4">
+              <img src={logoInteligis} alt="Inteligis Logo" className="w-48 h-auto" />
             </div>
             <p className="text-white/80 leading-relaxed">
               Especialista em Mercado Livre de Energia, ajudando indústrias a reduzirem custos e aumentarem competitividade.

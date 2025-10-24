@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Building2, Shield, Award } from "lucide-react";
+import { Shield, Award } from "lucide-react";
+import logoInteligis from "@/assets/logo-inteligis.jpg";
 
 const HeroSection = () => {
   const [formData, setFormData] = useState({
@@ -73,11 +74,7 @@ const HeroSection = () => {
             {/* Trust Logos */}
             <div className="flex flex-wrap gap-8 items-center pt-6">
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
-                <Building2 className="w-8 h-8 text-white" />
-                <div className="text-left">
-                  <div className="font-bold text-lg">Inteligis</div>
-                  <div className="text-xs text-white/80">Energia</div>
-                </div>
+                <img src={logoInteligis} alt="Inteligis Logo" className="w-32 h-auto" />
               </div>
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
                 <Shield className="w-8 h-8 text-secondary" />
