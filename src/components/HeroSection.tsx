@@ -5,19 +5,17 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Award } from "lucide-react";
 import logoInteligis from "@/assets/logo-inteligis.jpg";
-
 const HeroSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     company: "",
     email: "",
     whatsapp: "",
-    currentBill: "",
+    currentBill: ""
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validação básica
     if (!formData.name || !formData.company || !formData.email || !formData.whatsapp || !formData.currentBill) {
       toast.error("Por favor, preencha todos os campos");
@@ -30,25 +28,22 @@ const HeroSection = () => {
       toast.error("Por favor, insira um email válido");
       return;
     }
-
     toast.success("Análise solicitada com sucesso! Entraremos em contato em breve.");
     setFormData({
       name: "",
       company: "",
       email: "",
       whatsapp: "",
-      currentBill: "",
+      currentBill: ""
     });
   };
-
-  return (
-    <section className="relative min-h-screen bg-gradient-to-br from-primary via-primary-light to-primary flex items-center overflow-hidden">
+  return <section className="relative min-h-screen bg-gradient-to-br from-primary via-primary-light to-primary flex items-center overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
+        backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+        backgroundSize: '40px 40px'
+      }} />
       </div>
 
       <div className="container mx-auto px-4 py-20 relative z-10">
@@ -61,9 +56,9 @@ const HeroSection = () => {
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-50">
                 Descubra Como Sua Planta Pode Economizar Até{" "}
-                <span className="text-accent">40%</span> na Conta de Energia
+                <span className="text-lime-300 font-extrabold">40%</span> na Conta de Energia
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
@@ -72,18 +67,7 @@ const HeroSection = () => {
             </div>
 
             {/* Trust Logos */}
-            <div className="flex flex-wrap gap-8 items-center pt-6">
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
-                <img src={logoInteligis} alt="Inteligis Logo" className="w-32 h-auto" />
-              </div>
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
-                <Shield className="w-8 h-8 text-secondary" />
-                <div className="text-left">
-                  <div className="font-bold text-lg">Auren</div>
-                  <div className="text-xs text-white/80">Parceiro Oficial</div>
-                </div>
-              </div>
-            </div>
+            
           </div>
 
           {/* Right Column - Form */}
@@ -100,73 +84,45 @@ const HeroSection = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome Completo*</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="João Silva"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className="h-12"
-                />
+                <Input id="name" type="text" placeholder="João Silva" value={formData.name} onChange={e => setFormData({
+                ...formData,
+                name: e.target.value
+              })} required className="h-12" />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="company">Empresa*</Label>
-                <Input
-                  id="company"
-                  type="text"
-                  placeholder="Sua Empresa Ltda"
-                  value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  required
-                  className="h-12"
-                />
+                <Input id="company" type="text" placeholder="Sua Empresa Ltda" value={formData.company} onChange={e => setFormData({
+                ...formData,
+                company: e.target.value
+              })} required className="h-12" />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">E-mail Corporativo*</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="joao@suaempresa.com.br"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="h-12"
-                />
+                <Input id="email" type="email" placeholder="joao@suaempresa.com.br" value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} required className="h-12" />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="whatsapp">WhatsApp*</Label>
-                <Input
-                  id="whatsapp"
-                  type="tel"
-                  placeholder="(19) 99999-9999"
-                  value={formData.whatsapp}
-                  onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                  required
-                  className="h-12"
-                />
+                <Input id="whatsapp" type="tel" placeholder="(19) 99999-9999" value={formData.whatsapp} onChange={e => setFormData({
+                ...formData,
+                whatsapp: e.target.value
+              })} required className="h-12" />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="currentBill">Valor Atual da Conta (R$)*</Label>
-                <Input
-                  id="currentBill"
-                  type="text"
-                  placeholder="Ex: 15.000"
-                  value={formData.currentBill}
-                  onChange={(e) => setFormData({ ...formData, currentBill: e.target.value })}
-                  required
-                  className="h-12"
-                />
+                <Input id="currentBill" type="text" placeholder="Ex: 15.000" value={formData.currentBill} onChange={e => setFormData({
+                ...formData,
+                currentBill: e.target.value
+              })} required className="h-12" />
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full h-14 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white shadow-lg hover:shadow-xl transition-all"
-              >
+              <Button type="submit" className="w-full h-14 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white shadow-lg hover:shadow-xl transition-all">
                 Quero Minha Análise Gratuita
               </Button>
 
@@ -177,8 +133,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
