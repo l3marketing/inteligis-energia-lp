@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Award } from "lucide-react";
-import logoInteligis from "@/assets/logo-inteligis.jpg";
+import logoIntelgisisBranco from "@/assets/logo-inteligis-branco.svg";
+
 const HeroSection = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +48,16 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Logo no canto superior esquerdo */}
+        <div className="absolute top-8 left-4 md:left-8">
+          <img 
+            src={logoIntelgisisBranco} 
+            alt="Inteligis Energia" 
+            className="h-12 md:h-16 w-auto"
+          />
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center mt-12 md:mt-0">
           {/* Left Column - Copy */}
           <div className="text-white space-y-8">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
