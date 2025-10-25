@@ -1,4 +1,5 @@
 import { Building2, Users, Zap, TrendingUp } from "lucide-react";
+import partnershipImage from "@/assets/partnership.jpg";
 
 const Partnership = () => {
   return (
@@ -12,6 +13,15 @@ const Partnership = () => {
             <p className="text-xl text-muted-foreground">
               A combinação perfeita de expertise local e força nacional
             </p>
+          </div>
+
+          {/* Partnership Image */}
+          <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl">
+            <img 
+              src={partnershipImage} 
+              alt="Parceria de negócios" 
+              className="w-full h-64 md:h-80 object-cover"
+            />
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">

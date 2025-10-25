@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
+import savingsIllustration from "@/assets/savings-illustration.jpg";
 
 const SavingsCalculator = () => {
   const [currentBill, setCurrentBill] = useState("");
@@ -58,6 +59,15 @@ const SavingsCalculator = () => {
           backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
           backgroundSize: '30px 30px'
         }} />
+      </div>
+
+      {/* Decorative Image */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 opacity-10">
+        <img 
+          src={savingsIllustration} 
+          alt="Energia sustentável" 
+          className="w-full h-full object-contain"
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

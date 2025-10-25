@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Award } from "lucide-react";
 import logoIntelgisisBranco from "@/assets/logo-inteligis-branco.svg";
+import heroEnergy from "@/assets/hero-energy.jpg";
 
 const HeroSection = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +39,17 @@ const HeroSection = () => {
       currentBill: ""
     });
   };
-  return <section className="relative min-h-screen bg-gradient-to-br from-primary via-primary-light to-primary flex items-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroEnergy} 
+          alt="Industrial energy facility" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary-light/90 to-primary/95" />
+      </div>
+      
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
