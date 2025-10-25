@@ -53,7 +53,7 @@ const HeroSection = () => {
           <img 
             src={logoIntelgisisBranco} 
             alt="Inteligis Energia" 
-            className="h-16 md:h-24 w-auto"
+            className="h-32 md:h-48 w-auto"
           />
         </div>
 
