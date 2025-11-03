@@ -103,7 +103,7 @@ const SocialProof = () => {
           <Button 
             onClick={scrollToForm}
             size="lg"
-            className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg"
+            className="h-14 px-8 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white shadow-lg"
           >
             Quero Resultados Como Estes
           </Button>

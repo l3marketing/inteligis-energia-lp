@@ -45,7 +45,7 @@ const PainSection = () => {
           </div>
 
           <div className="text-center">
-            <Button onClick={scrollToForm} size="lg" className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg">
+            <Button onClick={scrollToForm} size="lg" className="h-14 px-8 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white shadow-lg">
               Sim, Quero Resolver Isso Agora
             </Button>
           </div>

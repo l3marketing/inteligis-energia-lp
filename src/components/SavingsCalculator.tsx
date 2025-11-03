@@ -124,7 +124,7 @@ const SavingsCalculator = () => {
 
             <Button 
               onClick={calculateSavings}
-              className="w-full md:w-auto h-14 px-8 text-lg font-semibold bg-accent hover:bg-accent/90 text-foreground"
+              className="w-full md:w-auto h-14 px-8 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white"
             >
               <Calculator className="w-5 h-5 mr-2" />
               Calcular Economia

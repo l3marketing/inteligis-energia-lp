@@ -172,7 +172,7 @@ const FinalCTA = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-14 text-lg font-semibold bg-accent hover:bg-accent/90 text-foreground shadow-lg"
+                  className="w-full h-14 text-lg font-semibold bg-secondary hover:bg-secondary/90 text-white shadow-lg"
                 >
                   Quero Economizar Agora
                 </Button>
