@@ -52,20 +52,13 @@ const Testimonials = () => {
             >
               <Quote className="w-12 h-12 text-primary/20 absolute top-6 right-6" />
               
-              <div className="flex items-center gap-4 mb-6">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full bg-muted"
-                />
-                <div>
-                  <h3 className="font-bold text-lg text-foreground">
-                    {testimonial.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.role}
-                  </p>
-                </div>
+              <div className="mb-6">
+                <h3 className="font-bold text-lg text-foreground">
+                  {testimonial.name}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {testimonial.role}
+                </p>
               </div>
 
               <div className="flex gap-1 mb-4">
