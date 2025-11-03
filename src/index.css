@@ -20,14 +20,14 @@ All colors MUST be HSL.
     /* Inteligis Blue - Primary color */
     --primary: 203 100% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 234 79% 63%;
+    --primary-light: 210 85% 65%;
     
     /* Savings Green - Action/CTA color */
     --secondary: 158 64% 52%;
     --secondary-foreground: 0 0% 100%;
     
-    /* Inteligis Purple - Accent */
-    --accent: 250 76% 63%;
+    /* Inteligis Blue - Accent */
+    --accent: 210 80% 60%;
     --accent-foreground: 0 0% 100%;
     
     --muted: 220 13% 95%;
@@ -43,7 +43,7 @@ All colors MUST be HSL.
     --radius: 0.75rem;
     
     /* Custom gradient for hero */
-    --gradient-hero: linear-gradient(135deg, hsl(203 100% 39%) 0%, hsl(234 79% 63%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(203 100% 39%) 0%, hsl(210 85% 65%) 100%);
     
     /* Shadows */
     --shadow-elevated: 0 10px 40px -10px hsl(203 100% 39% / 0.15);
@@ -78,7 +78,7 @@ All colors MUST be HSL.
 
     --primary: 203 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 234 79% 70%;
+    --primary-light: 210 85% 70%;
 
     --secondary: 158 64% 52%;
     --secondary-foreground: 0 0% 100%;
@@ -86,7 +86,7 @@ All colors MUST be HSL.
     --muted: 221 39% 18%;
     --muted-foreground: 220 9% 65%;
 
-    --accent: 250 76% 68%;
+    --accent: 210 80% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50%;
@@ -96,7 +96,7 @@ All colors MUST be HSL.
     --input: 221 39% 18%;
     --ring: 203 100% 50%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(203 100% 45%) 0%, hsl(234 79% 63%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(203 100% 45%) 0%, hsl(210 85% 65%) 100%);
     
     --shadow-elevated: 0 10px 40px -10px hsl(0 0% 0% / 0.3);
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.2);
