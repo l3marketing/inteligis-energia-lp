@@ -1,14 +1,12 @@
 import { Building2, Users, Zap, TrendingUp } from "lucide-react";
 import partnershipImage from "@/assets/partnership.jpg";
-
 const Partnership = () => {
-  return (
-    <section className="py-20 bg-background">
+  return <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Por Que <span className="text-primary">Inteligis + Auren?</span>
+              Por Que <span className="text-primary">Inteligis?</span>
             </h2>
             <p className="text-xl text-muted-foreground">
               A combinação perfeita de expertise local e força nacional
@@ -17,11 +15,7 @@ const Partnership = () => {
 
           {/* Partnership Image */}
           <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={partnershipImage} 
-              alt="Parceria de negócios" 
-              className="w-full h-64 md:h-80 object-cover"
-            />
+            
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -119,8 +113,6 @@ const Partnership = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Partnership;
