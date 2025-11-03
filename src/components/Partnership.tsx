@@ -55,37 +55,37 @@ const Partnership = () => {
               </div>
             </div>
 
-            {/* Auren Card */}
+            {/* Engineering Team Card */}
             <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 border-2 border-secondary/30 rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-14 h-14 bg-secondary rounded-xl flex items-center justify-center">
-                  <Zap className="w-7 h-7 text-white" />
+                  <Users className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Auren e Cemig</h3>
+                <h3 className="text-2xl font-bold text-foreground">Equipe Técnica Especializada</h3>
               </div>
 
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">
-                  Maior trader independente de energia do Brasil, garantindo:
+                  Engenheiros Elétricos com alto nível de conhecimento e experiência:
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-secondary font-bold text-sm">✓</span>
                     </div>
-                    <span className="text-foreground">Maior poder de negociação do mercado</span>
+                    <span className="text-foreground">Análise técnica completa de instalações elétricas</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-secondary font-bold text-sm">✓</span>
                     </div>
-                    <span className="text-foreground">Segurança financeira e operacional</span>
+                    <span className="text-foreground">Otimização de consumo e eficiência energética</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-secondary font-bold text-sm">✓</span>
                     </div>
-                    <span className="text-foreground">Gestão de riscos especializada</span>
+                    <span className="text-foreground">Suporte técnico especializado e contínuo</span>
                   </li>
                 </ul>
               </div>
