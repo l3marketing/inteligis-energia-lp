@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
-import savingsIllustration from "@/assets/savings-illustration.jpg";
+import { addLead } from "@/lib/leads";
+// Removida imagem decorativa de fundo para melhorar legibilidade
 
 const SavingsCalculator = () => {
   const [currentBill, setCurrentBill] = useState("");
@@ -13,6 +14,9 @@ const SavingsCalculator = () => {
   const [result, setResult] = useState<number | null>(null);
   const [showLeadCapture, setShowLeadCapture] = useState(false);
   const [email, setEmail] = useState("");
+  const [leadName, setLeadName] = useState("");
+  const [leadCompany, setLeadCompany] = useState("");
+  const [leadWhatsapp, setLeadWhatsapp] = useState("");
 
   const calculateSavings = () => {
     if (!currentBill) {
@@ -36,8 +40,8 @@ const SavingsCalculator = () => {
   };
 
   const handleSendReport = () => {
-    if (!email) {
-      toast.error("Por favor, insira seu e-mail");
+    if (!leadName || !leadCompany || !leadWhatsapp || !email) {
+      toast.error("Por favor, preencha Nome, Empresa, WhatsApp e E-mail");
       return;
     }
 
@@ -47,7 +51,23 @@ const SavingsCalculator = () => {
       return;
     }
 
-    toast.success("Relatório detalhado enviado para seu e-mail!");
+    // Salvar lead no store (MVP)
+    const billValue = parseFloat(currentBill.replace(/[^\d,]/g, '').replace(',', '.'));
+    const saved = addLead({
+      name: leadName,
+      company: leadCompany,
+      whatsapp: leadWhatsapp,
+      email,
+      billValue: isNaN(billValue) ? undefined : billValue,
+      sector,
+      estimatedMonthlySavings: result ?? undefined,
+      origin: "calculator",
+    });
+
+    toast.success("Lead salvo e relatório enviado!");
+    setLeadName("");
+    setLeadCompany("");
+    setLeadWhatsapp("");
     setEmail("");
   };
 
@@ -61,14 +81,7 @@ const SavingsCalculator = () => {
         }} />
       </div>
 
-      {/* Decorative Image */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 opacity-10">
-        <img 
-          src={savingsIllustration} 
-          alt="Energia sustentável" 
-          className="w-full h-full object-contain"
-        />
-      </div>
+      {/* Decorative Image removida */}
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
@@ -139,7 +152,7 @@ const SavingsCalculator = () => {
                       Economia Estimada:
                     </span>
                   </div>
-                  <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
+                  <div className="text-4xl md:text-5xl font-bold text-white mb-2">
                     R$ {result.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                   <p className="text-lg text-white/80">por mês no Mercado Livre de Energia</p>
@@ -150,14 +163,53 @@ const SavingsCalculator = () => {
                     <h3 className="text-xl font-bold mb-4">
                       Receba um Relatório Detalhado
                     </h3>
-                    <div className="flex flex-col md:flex-row gap-4">
-                      <Input
-                        type="email"
-                        placeholder="seu.email@empresa.com.br"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="flex-1 h-12 bg-white text-foreground"
-                      />
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="lead-name" className="text-white">Nome Completo</Label>
+                        <Input
+                          id="lead-name"
+                          type="text"
+                          placeholder="João Silva"
+                          value={leadName}
+                          onChange={(e) => setLeadName(e.target.value)}
+                          className="h-12 bg-white text-foreground"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lead-company" className="text-white">Nome da Empresa</Label>
+                        <Input
+                          id="lead-company"
+                          type="text"
+                          placeholder="Sua Empresa Ltda"
+                          value={leadCompany}
+                          onChange={(e) => setLeadCompany(e.target.value)}
+                          className="h-12 bg-white text-foreground"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lead-whatsapp" className="text-white">WhatsApp</Label>
+                        <Input
+                          id="lead-whatsapp"
+                          type="tel"
+                          placeholder="(19) 99999-9999"
+                          value={leadWhatsapp}
+                          onChange={(e) => setLeadWhatsapp(e.target.value)}
+                          className="h-12 bg-white text-foreground"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lead-email" className="text-white">E-mail</Label>
+                        <Input
+                          id="lead-email"
+                          type="email"
+                          placeholder="seu.email@empresa.com.br"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="h-12 bg-white text-foreground"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
                       <Button 
                         onClick={handleSendReport}
                         className="h-12 px-6 bg-secondary hover:bg-secondary/90 text-white font-semibold whitespace-nowrap"

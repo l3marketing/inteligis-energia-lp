@@ -20,9 +20,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Contato</h3>
             <div className="space-y-3">
-              <a href="tel:+551931234567" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+              <a href="tel:+5519995279091" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
                 <Phone className="w-4 h-4" />
-                <span>(19) 3123-4567</span>
+                <span>(19) 9 9527-9091</span>
               </a>
               <a href="mailto:contato@inteligis.com.br" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
                 <Mail className="w-4 h-4" />
@@ -39,7 +39,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Informações Legais</h3>
             <div className="space-y-2 text-sm text-white/80">
-              <p>CNPJ: 00.000.000/0001-00</p>
+              <p>CNPJ: 52.104.343/0001-08</p>
               <p>Parceiro Oficial Auren e Cemig</p>
               <p>Agente Registrado CCEE</p>
             </div>
@@ -48,6 +48,18 @@ const Footer = () => {
 
         <div className="border-t border-white/20 pt-8 text-center text-sm text-white/60">
           <p>&copy; {new Date().getFullYear()} Inteligis Energia. Todos os direitos reservados.</p>
+          <p className="mt-2">
+            Desenvolvido por
+            {" "}
+            <a
+              href="https://l3marketing.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-white underline"
+            >
+              L3 Marketing
+            </a>
+          </p>
         </div>
       </div>
     </footer>

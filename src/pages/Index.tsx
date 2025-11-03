@@ -9,7 +9,6 @@ import Guarantees from "@/components/Guarantees";
 import Partnership from "@/components/Partnership";
 import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -27,7 +26,6 @@ const Index = () => {
       <FAQ />
       <FinalCTA />
       <Footer />
-      <FloatingWhatsApp />
     </div>
   );
 };

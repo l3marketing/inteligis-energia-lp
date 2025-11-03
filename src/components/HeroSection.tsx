@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTrackingFields } from "@/hooks/use-tracking";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +16,7 @@ const HeroSection = () => {
     whatsapp: "",
     currentBill: ""
   });
+  const trackingFields = useTrackingFields();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -78,8 +80,9 @@ const HeroSection = () => {
 
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-50">
-                Descubra Como Sua Planta Pode Economizar Até{" "}
-                <span className="text-lime-300 font-extrabold">40%</span> na Conta de Energia
+                Descubra como sua planta pode{" "}
+                <span className="text-lime-300">economizar até 40%</span>{" "}
+                na conta de energia
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
@@ -150,6 +153,11 @@ const HeroSection = () => {
               <p className="text-xs text-muted-foreground text-center">
                 Seus dados estão protegidos. Não compartilhamos com terceiros.
               </p>
+
+              {/* Campos ocultos de tracking */}
+              {Object.entries(trackingFields).map(([key, value]) => (
+                <input key={key} type="hidden" name={key} value={typeof value === "string" ? value : JSON.stringify(value)} />
+              ))}
             </form>
           </div>
         </div>
