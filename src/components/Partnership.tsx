@@ -61,7 +61,7 @@ const Partnership = () => {
                 <div className="w-14 h-14 bg-secondary rounded-xl flex items-center justify-center">
                   <Zap className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Auren Energia</h3>
+                <h3 className="text-2xl font-bold text-foreground">Auren e Cemig</h3>
               </div>
 
               <div className="space-y-4">

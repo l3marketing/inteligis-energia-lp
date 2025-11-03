@@ -22,8 +22,8 @@ const SavingsCalculator = () => {
 
     const billValue = parseFloat(currentBill.replace(/[^\d,]/g, '').replace(',', '.'));
     
-    if (isNaN(billValue) || billValue < 10000) {
-      toast.error("O valor deve ser de pelo menos R$ 10.000");
+    if (isNaN(billValue) || billValue < 5000) {
+      toast.error("O valor deve ser de pelo menos R$ 5.000");
       return;
     }
 

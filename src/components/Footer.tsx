@@ -40,7 +40,7 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-4">Informações Legais</h3>
             <div className="space-y-2 text-sm text-white/80">
               <p>CNPJ: 00.000.000/0001-00</p>
-              <p>Parceiro Oficial Auren Energia</p>
+              <p>Parceiro Oficial Auren e Cemig</p>
               <p>Agente Registrado CCEE</p>
             </div>
           </div>

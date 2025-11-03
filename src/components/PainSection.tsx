@@ -25,7 +25,7 @@ const PainSection = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Se Sua Conta de Energia Passa de R$ 10 mil/Mês,{" "}
+              Se Sua Conta de Energia Passa de R$ 5 mil/Mês,{" "}
               <span className="text-primary">Você Está Deixando Dinheiro na Mesa</span>
             </h2>
           </div>

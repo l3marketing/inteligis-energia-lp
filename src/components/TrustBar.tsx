@@ -4,7 +4,7 @@ const TrustBar = () => {
   const trustItems = [
     {
       icon: Award,
-      text: "Parceiro Oficial Auren – Nº 1 em Trading de Energia no Brasil",
+      text: "Parceiro Oficial Auren e Cemig – Nº 1 em Trading de Energia no Brasil",
     },
     {
       icon: CheckCircle2,
