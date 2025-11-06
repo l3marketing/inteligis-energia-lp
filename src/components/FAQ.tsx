@@ -17,7 +17,7 @@ const FAQ = () => {
     },
     {
       question: "Quanto tempo leva a migração?",
-      answer: "O processo de migração completo leva de 25 a 30 dias úteis, em média. Nós cuidamos de toda a burocracia: cadastro na CCEE, adesão à convenção de comercialização, modelagem de contratos e comunicação com a distribuidora. Você apenas acompanha o processo e assina os documentos necessários.",
+      answer: "O processo de migração completo leva, em média, 180 dias. Nós cuidamos de toda a burocracia: cadastro na CCEE, adesão à convenção de comercialização, modelagem de contratos e comunicação com a distribuidora. Você apenas acompanha o processo e assina os documentos necessários.",
     },
     {
       question: "Preciso fazer algum investimento inicial?",

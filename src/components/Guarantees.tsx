@@ -4,8 +4,8 @@ const Guarantees = () => {
   const guarantees = [
     {
       icon: Award,
-      title: "Economia Mínima de 20%",
-      description: "Se não atingir pelo menos 20% de economia, revisamos o contrato sem custos",
+      title: "Economia Média de 20%",
+      description: "Média de 20% de economia observada em casos reais; os resultados podem variar conforme consumo e perfil contratual.",
     },
     {
       icon: Shield,

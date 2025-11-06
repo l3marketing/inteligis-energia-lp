@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calculator, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { addLead } from "@/lib/leads";
+import { trackEvent } from "@/lib/tracking";
 // Removida imagem decorativa de fundo para melhorar legibilidade
 
 const SavingsCalculator = () => {
@@ -17,6 +18,20 @@ const SavingsCalculator = () => {
   const [leadName, setLeadName] = useState("");
   const [leadCompany, setLeadCompany] = useState("");
   const [leadWhatsapp, setLeadWhatsapp] = useState("");
+
+  // Formatação básica de WhatsApp brasileiro: (DD) 9XXXX-XXXX ou (DD) XXXX-XXXX
+  const onlyDigits = (v: string) => v.replace(/\D+/g, "");
+  const formatWhatsapp = (v: string) => {
+    const d = onlyDigits(v).slice(0, 11); // até 11 dígitos (DDD + 9 + 8)
+    const dd = d.slice(0, 2);
+    const nine = d.length > 10; // se tem 11 dígitos, considera dígito 9
+    const p1 = d.slice(2, nine ? 7 : 6);
+    const p2 = d.slice(nine ? 7 : 6);
+    if (!dd) return d;
+    if (!p1) return `(${dd}`;
+    if (!p2) return `(${dd}) ${p1}`;
+    return `(${dd}) ${p1}-${p2}`;
+  };
 
   const calculateSavings = () => {
     if (!currentBill) {
@@ -37,9 +52,17 @@ const SavingsCalculator = () => {
 
     setResult(monthlySavings);
     setShowLeadCapture(true);
+
+    // Tracking não sensível
+    trackEvent("calculate_savings", {
+      sector,
+      bill_value: Number(billValue.toFixed(2)),
+      estimated_monthly_savings: Number(monthlySavings.toFixed(2)),
+    });
+    trackEvent("show_lead_capture", { sector });
   };
 
-  const handleSendReport = () => {
+  const handleSendReport = async () => {
     if (!leadName || !leadCompany || !leadWhatsapp || !email) {
       toast.error("Por favor, preencha Nome, Empresa, WhatsApp e E-mail");
       return;
@@ -51,9 +74,21 @@ const SavingsCalculator = () => {
       return;
     }
 
+    const digits = leadWhatsapp.replace(/\D+/g, "");
+    if (digits.length < 10) {
+      toast.error("Por favor, insira um WhatsApp válido com DDD");
+      return;
+    }
+
     // Salvar lead no store (MVP)
     const billValue = parseFloat(currentBill.replace(/[^\d,]/g, '').replace(',', '.'));
-    const saved = addLead({
+    // Tracking antes do envio (sem dados pessoais)
+    trackEvent("submit_lead", {
+      sector,
+      bill_value: isNaN(billValue) ? null : Number(billValue.toFixed(2)),
+      estimated_monthly_savings: result == null ? null : Number(result.toFixed(2)),
+    });
+    const saved = await addLead({
       name: leadName,
       company: leadCompany,
       whatsapp: leadWhatsapp,
@@ -65,10 +100,15 @@ const SavingsCalculator = () => {
     });
 
     toast.success("Lead salvo e relatório enviado!");
+    // Limpa e oculta captura após envio
     setLeadName("");
     setLeadCompany("");
     setLeadWhatsapp("");
     setEmail("");
+    setShowLeadCapture(false);
+    setResult(null);
+
+    trackEvent("submit_lead_success", { sector });
   };
 
   return (
@@ -193,7 +233,7 @@ const SavingsCalculator = () => {
                           type="tel"
                           placeholder="(19) 99999-9999"
                           value={leadWhatsapp}
-                          onChange={(e) => setLeadWhatsapp(e.target.value)}
+                          onChange={(e) => setLeadWhatsapp(formatWhatsapp(e.target.value))}
                           className="h-12 bg-white text-foreground"
                         />
                       </div>

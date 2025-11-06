@@ -16,7 +16,7 @@ const TrustBar = () => {
     },
     {
       icon: MapPin,
-      text: "Atendimento Local em Campinas",
+      text: "Atendimento local em Campinas e RMC",
     },
   ];
 

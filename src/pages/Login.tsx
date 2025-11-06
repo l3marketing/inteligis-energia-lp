@@ -11,19 +11,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!import.meta.env.VITE_ADMIN_USERNAME || !import.meta.env.VITE_ADMIN_PASSWORD) {
-      toast.error("VITE_ADMIN_USERNAME/VITE_ADMIN_PASSWORD não configurados no ambiente");
-      return;
-    }
     // Validação simples de e-mail
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error("Por favor, insira um e-mail válido");
       return;
     }
-    const ok = login(email, password);
+    const ok = await login(email, password);
     if (ok) {
       toast.success("Acesso liberado");
       navigate("/admin/leads");

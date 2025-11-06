@@ -13,9 +13,9 @@ const Partnership = () => {
             </p>
           </div>
 
-          {/* Partnership Image */}
+          {/* Partnership Image (estado original) */}
           <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl">
-            
+            {/* imagem removida no projeto original */}
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -66,7 +66,7 @@ const Partnership = () => {
 
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">
-                  Engenheiros Elétricos com alto nível de conhecimento e experiência:
+                  Engenheiros com alto nível de conhecimento e experiência:
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">

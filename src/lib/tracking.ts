@@ -149,3 +149,40 @@ export const collectTrackingSync = (): TrackingFields => {
   }
   return fields;
 };
+
+/**
+ * Dispara um evento de tracking não sensível.
+ * - Empurra para window.dataLayer (se existir) e faz console.debug no modo dev
+ * - NÃO inclui dados pessoais (nome, e-mail, whatsapp)
+ */
+export function trackEvent(
+  eventName: string,
+  props: Record<string, string | number | boolean | null | undefined> = {}
+) {
+  const base = collectTrackingSync();
+  const payload = {
+    event: eventName,
+    timestamp: new Date().toISOString(),
+    utm_source: base.utm_source,
+    utm_medium: base.utm_medium,
+    utm_campaign: base.utm_campaign,
+    device_type: base.device_type,
+    ga_client_id: base.ga_client_id,
+    fbclid: base.fbclid,
+    first_touch: base.first_touch_at,
+    last_touch_at: base.last_touch_at,
+    session_meta: base.session_meta,
+    ...props,
+  } as Record<string, unknown>;
+
+  try {
+    if (typeof window !== "undefined" && Array.isArray((window as any).dataLayer)) {
+      (window as any).dataLayer.push(payload);
+    }
+  } catch {}
+
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.debug("[trackEvent]", payload);
+  }
+}

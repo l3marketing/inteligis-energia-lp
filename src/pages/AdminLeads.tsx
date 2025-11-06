@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isAuthed } from "@/lib/auth";
-import { getLeads, exportCSV, downloadCSV, Lead } from "@/lib/leads";
+import { getLeadsAsync, exportCSV, downloadCSV, Lead } from "@/lib/leads";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -11,11 +11,15 @@ const AdminLeads = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
-    if (!isAuthed()) {
-      navigate("/login");
-      return;
-    }
-    setLeads(getLeads());
+    const init = async () => {
+      if (!isAuthed()) {
+        navigate("/login");
+        return;
+      }
+      const list = await getLeadsAsync();
+      setLeads(list);
+    };
+    init();
   }, [navigate]);
 
   const filtered = useMemo(() => {
