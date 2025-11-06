@@ -20,6 +20,7 @@ export interface Lead {
 
 const STORAGE_KEY = "inteligis:leads";
 const TABLE = "leads";
+const EVENT_UPDATED = "inteligis:leads_updated";
 
 // Helpers de mapeamento (Supabase <-> App)
 type DbLead = {
@@ -86,6 +87,14 @@ function readAll(): Lead[] {
 
 function writeAll(leads: Lead[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+  // Notifica a aplicação para atualização em tempo real (mesmo aba e entre abas)
+  try {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent(EVENT_UPDATED));
+    }
+  } catch (e) {
+    // Silencioso: evitar quebrar em ambientes sem window
+  }
 }
 
 export function getLeads(): Lead[] {

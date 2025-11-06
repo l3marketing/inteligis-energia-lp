@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calculator, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { addLead } from "@/lib/leads";
+import { notifyLeadSubmission } from "@/lib/notifications";
 import { trackEvent } from "@/lib/tracking";
 // Removida imagem decorativa de fundo para melhorar legibilidade
 
@@ -98,6 +99,9 @@ const SavingsCalculator = () => {
       estimatedMonthlySavings: result ?? undefined,
       origin: "calculator",
     });
+
+    // Notificação opcional (webhook) configurável via .env
+    notifyLeadSubmission(saved);
 
     toast.success("Lead salvo e relatório enviado!");
     // Limpa e oculta captura após envio
