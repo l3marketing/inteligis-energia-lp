@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
-import { addLead } from "@/lib/leads";
+// Usa wrapper que já salva metadados localmente e no Supabase (quando habilitado)
+import { addLeadWithMeta } from "@/lib/leadCapture";
 import { notifyLeadSubmission } from "@/lib/notifications";
 import { trackEvent } from "@/lib/tracking";
 // Removida imagem decorativa de fundo para melhorar legibilidade
@@ -89,7 +90,7 @@ const SavingsCalculator = () => {
       bill_value: isNaN(billValue) ? null : Number(billValue.toFixed(2)),
       estimated_monthly_savings: result == null ? null : Number(result.toFixed(2)),
     });
-    const saved = await addLead({
+    const saved = await addLeadWithMeta({
       name: leadName,
       company: leadCompany,
       whatsapp: leadWhatsapp,

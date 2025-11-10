@@ -171,7 +171,12 @@ export function trackEvent(
     fbclid: base.fbclid,
     first_touch: base.first_touch_at,
     last_touch_at: base.last_touch_at,
-    session_meta: base.session_meta,
+    // Metadados de sessão explicitamente incorporados
+    user_agent: base.user_agent,
+    browser_language: base.browser_language,
+    timezone: base.timezone,
+    timezone_offset: base.timezone_offset,
+    screen_resolution: base.screen_resolution,
     ...props,
   } as Record<string, unknown>;
 

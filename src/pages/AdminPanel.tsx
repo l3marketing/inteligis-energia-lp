@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isAuthed } from "@/lib/auth";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Brain, Cog, Layers } from "lucide-react";
+import { Brain, Cog, Layers, Users } from "lucide-react";
 import LeadsTab from "@/components/admin/LeadsTab";
 import IntegrationsTab from "@/components/admin/IntegrationsTab";
+import UsersTab from "@/components/admin/UsersTab";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -29,11 +30,15 @@ const AdminPanel = () => {
         <Tabs defaultValue="leads" className="space-y-6">
           <TabsList>
             <TabsTrigger value="leads" className="flex items-center gap-2"><Layers className="h-4 w-4" /> Leads</TabsTrigger>
+            <TabsTrigger value="usuarios" className="flex items-center gap-2"><Users className="h-4 w-4" /> Usuários</TabsTrigger>
             <TabsTrigger value="integracoes" className="flex items-center gap-2"><Cog className="h-4 w-4" /> Integrações</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leads" className="space-y-6">
             {ready && <LeadsTab />}
+          </TabsContent>
+          <TabsContent value="usuarios" className="space-y-6">
+            {ready && <UsersTab />}
           </TabsContent>
           <TabsContent value="integracoes" className="space-y-6">
             {ready && <IntegrationsTab />}

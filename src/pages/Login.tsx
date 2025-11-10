@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/lib/auth";
+import { supabase, useSupabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const useSb = useSupabase;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +31,26 @@ const Login = () => {
     } else {
       toast.error("Senha inválida");
     }
+  };
+
+  const handleForgotPassword = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!useSb) {
+      toast.info("Reset de senha por e-mail requer Supabase ativo.");
+      return;
+    }
+    // Validação simples de e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Informe um e-mail válido no campo acima para receber o link de redefinição.");
+      return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      toast.error(`Falha ao solicitar redefinição: ${error.message}`);
+      return;
+    }
+    toast.success("Se o e-mail existir, um link de redefinição foi enviado.");
   };
 
   return (
@@ -76,7 +98,7 @@ const Login = () => {
               </div>
               <Button type="submit" className="w-full h-11 bg-secondary hover:bg-secondary/90 text-white font-semibold">Entrar</Button>
               <div className="text-center">
-                <a href="#" className="text-sm text-primary hover:underline">Esqueci minha senha</a>
+                <a href="#" onClick={handleForgotPassword} className="text-sm text-primary hover:underline">Esqueci minha senha</a>
               </div>
             </form>
           </CardContent>

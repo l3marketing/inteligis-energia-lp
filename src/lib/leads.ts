@@ -16,6 +16,11 @@ export interface Lead {
   origin?: string;
   createdAt: string; // ISO date
   status: LeadStatus;
+  // Campos adicionais para gestão no Admin
+  qualificationReason?: string; // motivo quando marcado como não qualificado
+  conversionStatus?: "Venda realizada" | "Perdido" | "Retornar em breve"; // estado de conversão
+  conversionReason?: string; // motivo quando marcado como perdido (conversão)
+  saleValue?: number; // valor da venda quando conversão realizada
 }
 
 const STORAGE_KEY = "inteligis:leads";
@@ -35,6 +40,11 @@ type DbLead = {
   origin?: string | null;
   created_at: string; // ISO
   status: LeadStatus;
+  // Campos de gestão (opcionais) no banco
+  qualification_reason?: string | null;
+  conversion_status?: "Venda realizada" | "Perdido" | "Retornar em breve" | null;
+  conversion_reason?: string | null;
+  sale_value?: number | null;
 };
 
 function normalizeStatus(s: string): LeadStatus {
@@ -55,6 +65,11 @@ function toAppLead(row: DbLead): Lead {
     origin: row.origin ?? undefined,
     createdAt: row.created_at,
     status: normalizeStatus(row.status as unknown as string),
+    // Novos campos mapeados
+    qualificationReason: row.qualification_reason ?? undefined,
+    conversionStatus: row.conversion_status ?? undefined,
+    conversionReason: row.conversion_reason ?? undefined,
+    saleValue: row.sale_value ?? undefined,
   };
 }
 
@@ -71,6 +86,11 @@ function toDbLead(input: Lead): DbLead {
     origin: input.origin ?? null,
     created_at: input.createdAt,
     status: input.status,
+    // Novos campos mapeados
+    qualification_reason: input.qualificationReason ?? null,
+    conversion_status: input.conversionStatus ?? null,
+    conversion_reason: input.conversionReason ?? null,
+    sale_value: input.saleValue ?? null,
   };
 }
 
@@ -109,8 +129,8 @@ export async function getLeadsAsync(): Promise<Lead[]> {
     .select("*")
     .order("created_at", { ascending: false });
   if (error) {
-    console.error("Erro ao buscar leads no Supabase:", error);
-    return [];
+    console.error("Erro ao buscar leads no Supabase, usando fallback local:", error);
+    return readAll();
   }
   return (data ?? []).map(toAppLead);
 }
@@ -168,6 +188,11 @@ export async function updateLead(id: string, patch: Partial<Lead>): Promise<Lead
     estimated_monthly_savings: patch.estimatedMonthlySavings ?? undefined,
     origin: patch.origin ?? undefined,
     status: patch.status ?? undefined,
+    // Campos de gestão de conversão/qualificação
+    qualification_reason: patch.qualificationReason ?? undefined,
+    conversion_status: patch.conversionStatus ?? undefined,
+    conversion_reason: patch.conversionReason ?? undefined,
+    sale_value: patch.saleValue ?? undefined,
   };
   const { data, error } = await supabase.from<DbLead>(TABLE).update(dbPatch).eq("id", id).select("*").single();
   if (error) {
@@ -195,7 +220,22 @@ export async function deleteLead(id: string): Promise<boolean> {
 export function exportCSV(leads: Lead[]): string {
   // Gera CSV simples; Excel abre normalmente
   const headers = [
-    "id","name","company","whatsapp","email","billValue","sector","estimatedMonthlySavings","origin","createdAt","status"
+    "id",
+    "name",
+    "company",
+    "whatsapp",
+    "email",
+    "billValue",
+    "sector",
+    "estimatedMonthlySavings",
+    "origin",
+    "createdAt",
+    "status",
+    // Novos campos de gestão
+    "qualificationReason",
+    "conversionStatus",
+    "conversionReason",
+    "saleValue",
   ];
   const escape = (val: unknown) => {
     const s = val === undefined || val === null ? "" : String(val);
@@ -216,6 +256,10 @@ export function exportCSV(leads: Lead[]): string {
       l.origin ?? "",
       l.createdAt,
       l.status,
+      l.qualificationReason ?? "",
+      l.conversionStatus ?? "",
+      l.conversionReason ?? "",
+      l.saleValue ?? "",
     ].map(escape).join(","));
   }
   return lines.join("\n");
