@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Webhook } from "lucide-react";
+import { testWebhook, getLastWebhook } from "@/lib/notifications";
 
 type IntegrationState = {
   metaPixelId: string;
@@ -43,10 +44,21 @@ function saveIntegrations(state: IntegrationState) {
 
 const IntegrationsTab = () => {
   const [integrations, setIntegrations] = useState<IntegrationState>(loadIntegrations());
+  const [lastWebhookPayload, setLastWebhookPayload] = useState<string>("");
+  const [lastWebhookResult, setLastWebhookResult] = useState<string>("");
 
   useEffect(() => {
     // Garantir estado sincronizado (ex.: outra aba)
     setIntegrations(loadIntegrations());
+    const load = () => {
+      const { payload, result } = getLastWebhook();
+      setLastWebhookPayload(payload ? JSON.stringify(payload, null, 2) : "");
+      setLastWebhookResult(result ? JSON.stringify(result, null, 2) : "");
+    };
+    load();
+    const onUpdate = () => load();
+    window.addEventListener("inteligis:webhook_updated", onUpdate as EventListener);
+    return () => window.removeEventListener("inteligis:webhook_updated", onUpdate as EventListener);
   }, []);
 
   const setStatus = (key: string, value: boolean) => {
@@ -141,8 +153,30 @@ const IntegrationsTab = () => {
             <Input placeholder="https://api.seusistema.com/webhook" value={integrations.webhookUrl} onChange={(e) => setIntegrations(prev => ({ ...prev, webhookUrl: e.target.value }))} />
             <div className="flex gap-2">
               <Button onClick={() => saveField({ webhookUrl: integrations.webhookUrl })}>Salvar</Button>
-              <Button variant="outline" onClick={() => toast.info("Webhook test: GET/POST não implementado no frontend")}>Testar</Button>
+              <Button variant="outline" onClick={async () => {
+                const res = await testWebhook();
+                if (res.ok) {
+                  toast.success(`Webhook OK (${res.status ?? ""})`);
+                } else {
+                  toast.error(`Falha ao enviar webhook (${res.status ?? ""})`);
+                }
+                const { payload, result } = getLastWebhook();
+                setLastWebhookPayload(payload ? JSON.stringify(payload, null, 2) : "");
+                setLastWebhookResult(result ? JSON.stringify(result, null, 2) : "");
+              }}>Testar envio</Button>
             </div>
+            {(lastWebhookPayload || lastWebhookResult) && (
+              <div className="mt-4 space-y-3">
+                <div>
+                  <div className="text-sm text-muted-foreground mb-2">Último payload</div>
+                  <pre className="bg-muted p-3 rounded-md overflow-auto max-h-64 text-xs">{lastWebhookPayload}</pre>
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-2">Último resultado</div>
+                  <pre className="bg-muted p-3 rounded-md overflow-auto max-h-64 text-xs">{lastWebhookResult}</pre>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

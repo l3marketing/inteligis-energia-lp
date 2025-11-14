@@ -98,7 +98,7 @@ const Login = () => {
               </div>
               <Button type="submit" className="w-full h-11 bg-secondary hover:bg-secondary/90 text-white font-semibold">Entrar</Button>
               <div className="text-center">
-                <a href="#" onClick={handleForgotPassword} className="text-sm text-primary hover:underline">Esqueci minha senha</a>
+                <button type="button" onClick={handleForgotPassword} className="text-sm text-primary hover:underline bg-transparent p-0">Esqueci minha senha</button>
               </div>
             </form>
           </CardContent>

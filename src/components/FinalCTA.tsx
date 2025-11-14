@@ -5,6 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Phone, Clock, AlertCircle } from "lucide-react";
 import { useTrackingFields } from "@/hooks/use-tracking";
 import { toast } from "sonner";
+import { addLeadWithMeta } from "@/lib/leadCapture";
+import { notifyLeadSubmission } from "@/lib/notifications";
+import { trackEvent } from "@/lib/tracking";
 
 const FinalCTA = () => {
   const [slotsLeft, setSlotsLeft] = useState(3);
@@ -27,7 +30,7 @@ const FinalCTA = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.company || !formData.email || !formData.whatsapp || !formData.currentBill) {
@@ -40,6 +43,29 @@ const FinalCTA = () => {
       toast.error("Por favor, insira um e-mail válido");
       return;
     }
+    const digits = formData.whatsapp.replace(/\D+/g, "");
+    if (digits.length < 10) {
+      toast.error("Por favor, insira um WhatsApp válido com DDD");
+      return;
+    }
+
+    const billValue = parseFloat(formData.currentBill.replace(/[^\d,]/g, '').replace(',', '.'));
+
+    trackEvent("submit_lead", {
+      origin: "final_cta",
+      bill_value: isNaN(billValue) ? null : Number(billValue.toFixed(2)),
+    });
+
+    const saved = await addLeadWithMeta({
+      name: formData.name,
+      company: formData.company,
+      whatsapp: formData.whatsapp,
+      email: formData.email,
+      billValue: isNaN(billValue) ? undefined : billValue,
+      origin: "final_cta",
+    });
+
+    notifyLeadSubmission(saved);
 
     toast.success("Solicitação enviada! Entraremos em contato em breve.");
     setFormData({
@@ -49,6 +75,7 @@ const FinalCTA = () => {
       whatsapp: "",
       currentBill: "",
     });
+    trackEvent("submit_lead_success", { origin: "final_cta" });
   };
 
   // Removido: ação de abrir link do WhatsApp

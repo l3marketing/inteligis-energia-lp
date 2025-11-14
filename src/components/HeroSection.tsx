@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { addLeadWithMeta } from "@/lib/leadCapture";
+import { notifyLeadSubmission } from "@/lib/notifications";
+import { trackEvent } from "@/lib/tracking";
 import { Shield, Award } from "lucide-react";
 import logoIntelgisisBranco from "@/assets/logo-inteligis-branco.svg";
 import heroEnergy from "@/assets/hero-energy.jpg";
@@ -17,7 +20,7 @@ const HeroSection = () => {
     currentBill: ""
   });
   const trackingFields = useTrackingFields();
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validação básica
@@ -32,6 +35,30 @@ const HeroSection = () => {
       toast.error("Por favor, insira um email válido");
       return;
     }
+    const digits = formData.whatsapp.replace(/\D+/g, "");
+    if (digits.length < 10) {
+      toast.error("Por favor, insira um WhatsApp válido com DDD");
+      return;
+    }
+
+    const billValue = parseFloat(formData.currentBill.replace(/[^\d,]/g, '').replace(',', '.'));
+
+    trackEvent("submit_lead", {
+      origin: "hero",
+      bill_value: isNaN(billValue) ? null : Number(billValue.toFixed(2)),
+    });
+
+    const saved = await addLeadWithMeta({
+      name: formData.name,
+      company: formData.company,
+      whatsapp: formData.whatsapp,
+      email: formData.email,
+      billValue: isNaN(billValue) ? undefined : billValue,
+      origin: "hero",
+    });
+
+    notifyLeadSubmission(saved);
+
     toast.success("Análise solicitada com sucesso! Entraremos em contato em breve.");
     setFormData({
       name: "",
@@ -40,6 +67,7 @@ const HeroSection = () => {
       whatsapp: "",
       currentBill: ""
     });
+    trackEvent("submit_lead_success", { origin: "hero" });
   };
   return <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}

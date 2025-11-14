@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <div className="mb-4">
-              <img src={logoInteligisBranco} alt="Inteligis Energia" className="w-48 h-auto" />
+              <img src={logoInteligisBranco} alt="Inteligis Energia" className="w-48 h-auto" loading="lazy" />
             </div>
             <p className="text-white/80 leading-relaxed">
               Especialista em Mercado Livre de Energia, ajudando indústrias a reduzirem custos e aumentarem competitividade.

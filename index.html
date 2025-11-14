@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.png" type="image/png" />
-    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="canonical" href="" id="canonical" />
     <title>Inteligis Energia - Economize Até 40% na Conta de Energia | Mercado Livre</title>
     <meta name="description" content="Descubra como sua indústria pode economizar até 40% na conta de energia. Análise gratuita e personalizada. Parceiro oficial Auren. Atendimento em Campinas/SP." />
     <meta name="author" content="Inteligis Energia" />
@@ -12,11 +12,15 @@
     <meta property="og:title" content="Economize Até 40% na Conta de Energia - Inteligis" />
     <meta property="og:description" content="Análise gratuita para sua indústria migrar ao Mercado Livre de Energia com segurança e economia garantida." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:image" content="/placeholder.svg" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:image" content="/placeholder.svg" />
+    <script type="module">
+      const href = import.meta.env.VITE_CANONICAL_URL || `${location.origin}${location.pathname}`;
+      const link = document.getElementById('canonical');
+      if (link) link.setAttribute('href', href);
+    </script>
   </head>
 
   <body>
