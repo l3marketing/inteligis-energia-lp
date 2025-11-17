@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <script>
+      (function() {
+        var redirect = location.pathname + location.search + location.hash;
+        var parts = location.pathname.split('/');
+        var base = parts.slice(0, -1).join('/') || '/';
+        if (!base.endsWith('/')) base += '/';
+        var url = base + '?redirect=' + encodeURIComponent(redirect);
+        location.replace(url);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
