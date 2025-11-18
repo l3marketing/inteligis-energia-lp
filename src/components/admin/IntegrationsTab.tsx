@@ -8,48 +8,27 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Webhook } from "lucide-react";
 import { testWebhook, getLastWebhook } from "@/lib/notifications";
+import { loadIntegrations as loadIntegrationsAsync, saveIntegrations as saveIntegrationsAsync, type IntegrationState } from "@/lib/integrations";
 
-type IntegrationState = {
-  metaPixelId: string;
-  gtmCode: string;
-  ga4Id: string;
-  tiktokPixel: string;
-  webhookUrl: string;
-  statuses: Record<string, boolean>;
-};
-
-const INTEGRATIONS_STORAGE_KEY = "inteligis:integrations";
-
-function loadIntegrations(): IntegrationState {
-  try {
-    const raw = localStorage.getItem(INTEGRATIONS_STORAGE_KEY);
-    if (!raw) return { metaPixelId: "", gtmCode: "", ga4Id: "", tiktokPixel: "", webhookUrl: "", statuses: {} };
-    const parsed = JSON.parse(raw);
-    return {
-      metaPixelId: parsed.metaPixelId ?? "",
-      gtmCode: parsed.gtmCode ?? "",
-      ga4Id: parsed.ga4Id ?? "",
-      tiktokPixel: parsed.tiktokPixel ?? "",
-      webhookUrl: parsed.webhookUrl ?? "",
-      statuses: parsed.statuses ?? {},
-    } as IntegrationState;
-  } catch {
-    return { metaPixelId: "", gtmCode: "", ga4Id: "", tiktokPixel: "", webhookUrl: "", statuses: {} };
-  }
+async function loadIntegrations(): Promise<IntegrationState> {
+  return await loadIntegrationsAsync();
 }
 
-function saveIntegrations(state: IntegrationState) {
-  localStorage.setItem(INTEGRATIONS_STORAGE_KEY, JSON.stringify(state));
+async function saveIntegrations(state: IntegrationState) {
+  await saveIntegrationsAsync(state);
 }
 
 const IntegrationsTab = () => {
-  const [integrations, setIntegrations] = useState<IntegrationState>(loadIntegrations());
+  const [integrations, setIntegrations] = useState<IntegrationState>({ metaPixelId: "", gtmCode: "", ga4Id: "", tiktokPixel: "", webhookUrl: "", webhookToken: "", statuses: {} });
   const [lastWebhookPayload, setLastWebhookPayload] = useState<string>("");
   const [lastWebhookResult, setLastWebhookResult] = useState<string>("");
 
   useEffect(() => {
     // Garantir estado sincronizado (ex.: outra aba)
-    setIntegrations(loadIntegrations());
+    (async () => {
+      const loaded = await loadIntegrations();
+      setIntegrations(loaded);
+    })();
     const load = () => {
       const { payload, result } = getLastWebhook();
       setLastWebhookPayload(payload ? JSON.stringify(payload, null, 2) : "");
@@ -61,16 +40,16 @@ const IntegrationsTab = () => {
     return () => window.removeEventListener("inteligis:webhook_updated", onUpdate as EventListener);
   }, []);
 
-  const setStatus = (key: string, value: boolean) => {
+  const setStatus = async (key: string, value: boolean) => {
     const next = { ...integrations, statuses: { ...integrations.statuses, [key]: value } };
     setIntegrations(next);
-    saveIntegrations(next);
+    await saveIntegrations(next);
   };
 
-  const saveField = (patch: Partial<IntegrationState>) => {
+  const saveField = async (patch: Partial<IntegrationState>) => {
     const next = { ...integrations, ...patch };
     setIntegrations(next);
-    saveIntegrations(next);
+    await saveIntegrations(next);
     toast.success("Configurações salvas");
   };
 
@@ -165,6 +144,10 @@ const IntegrationsTab = () => {
                 setLastWebhookResult(result ? JSON.stringify(result, null, 2) : "");
               }}>Testar envio</Button>
             </div>
+            <Input placeholder="Bearer token (opcional)" value={integrations.webhookToken || ""} onChange={(e) => setIntegrations(prev => ({ ...prev, webhookToken: e.target.value }))} />
+            <div className="flex gap-2">
+              <Button onClick={() => saveField({ webhookToken: integrations.webhookToken })}>Salvar token</Button>
+            </div>
             {(lastWebhookPayload || lastWebhookResult) && (
               <div className="mt-4 space-y-3">
                 <div>
@@ -181,7 +164,7 @@ const IntegrationsTab = () => {
         </Card>
       </div>
       <Separator />
-      <p className="text-sm text-muted-foreground">As integrações acima são apenas configuração visual no frontend (MVP). Na próxima etapa, conectaremos com a API/autenticação e persistência segura.</p>
+      <p className="text-sm text-muted-foreground">As integrações acima são persistidas via Admin. Quando Supabase está ativo, são salvas no banco; caso contrário, ficam no dispositivo atual.</p>
     </div>
   );
 };

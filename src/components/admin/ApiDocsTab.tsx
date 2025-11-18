@@ -31,8 +31,8 @@ const ApiDocsTab = () => {
             <div className="font-semibold">Destino</div>
             <ul className="list-disc ml-6">
               <li>Se <span className="font-mono">webhook_url</span> estiver presente, será usado como destino.</li>
-              <li>Senão, usa <span className="font-mono">LEADS_WEBHOOK_URL</span> configurado na Vercel.</li>
-              <li>Se houver <span className="font-mono">LEADS_WEBHOOK_TOKEN</span> e o destino for o de env, será enviado como Bearer.</li>
+              <li>Senão, usa a URL salva via Admin (Supabase). Se não houver no Admin, usa <span className="font-mono">LEADS_WEBHOOK_URL</span> das envs.</li>
+              <li>Token: quando houver token salvo via Admin (Supabase) ou env <span className="font-mono">LEADS_WEBHOOK_TOKEN</span>, será adicionado como <span className="font-mono">Authorization: Bearer ...</span>.</li>
             </ul>
           </div>
         </CardContent>

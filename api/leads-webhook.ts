@@ -1,3 +1,5 @@
+import { createClient } from "@supabase/supabase-js";
+
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.status(405).send("Method Not Allowed");
@@ -7,9 +9,35 @@ export default async function handler(req: any, res: any) {
   const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
   const uiUrl = body?.webhook_url ? String(body.webhook_url) : "";
   const envUrl = process.env.LEADS_WEBHOOK_URL || "";
-  const url = uiUrl || envUrl;
-  const token = envUrl && !uiUrl ? (process.env.LEADS_WEBHOOK_TOKEN || "") : "";
-  const payload = { ...body, correlation_id: cid };
+  let url = uiUrl || envUrl;
+  let token = envUrl && !uiUrl ? (process.env.LEADS_WEBHOOK_TOKEN || "") : "";
+
+  const forwardedFor = (req.headers["x-forwarded-for"] as string) || "";
+  const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : (req.headers["x-real-ip"] as string) || (req.socket?.remoteAddress || "");
+  const ipCity = (req.headers["x-vercel-ip-city"] as string) || "";
+  const ipCountry = (req.headers["x-vercel-ip-country"] as string) || "";
+  const ipRegion = (req.headers["x-vercel-ip-country-region"] as string) || "";
+
+  if (!url) {
+    try {
+      const supaUrl = process.env.SUPABASE_URL || "";
+      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+      if (supaUrl && serviceKey) {
+        const serverSupabase = createClient(supaUrl, serviceKey);
+        const { data } = await serverSupabase
+          .from("integrations")
+          .select("webhook_url, webhook_token")
+          .limit(1)
+          .maybeSingle();
+        if (data) {
+          url = data.webhook_url || "";
+          token = data.webhook_token || "";
+        }
+      }
+    } catch {}
+  }
+
+  const payload = { ...body, correlation_id: cid, client_ip: clientIp, ip_city: ipCity, ip_country: ipCountry, ip_region: ipRegion };
   if (!url) {
     res.status(200).json({ ok: true });
     return;
