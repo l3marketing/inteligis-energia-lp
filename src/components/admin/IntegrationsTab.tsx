@@ -154,7 +154,7 @@ const IntegrationsTab = () => {
             <div className="flex gap-2">
               <Button onClick={() => saveField({ webhookUrl: integrations.webhookUrl })}>Salvar</Button>
               <Button variant="outline" onClick={async () => {
-                const res = await testWebhook();
+                const res = await testWebhook(integrations.webhookUrl || undefined);
                 if (res.ok) {
                   toast.success(`Webhook OK (${res.status ?? ""})`);
                 } else {

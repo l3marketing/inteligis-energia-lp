@@ -35,17 +35,20 @@ export function getLastWebhook(): { payload?: unknown; result?: unknown } {
 }
 
 export async function notifyLeadSubmission(lead: Lead): Promise<void> {
-  const url = getEnv("VITE_LEADS_WEBHOOK_URL");
-  if (!url) return; // webhook não configurado
-
-  const token = getEnv("VITE_LEADS_WEBHOOK_TOKEN");
+  const url = "/api/leads-webhook";
   const tracking = collectTrackingSync();
+  let webhookUrl = "";
+  try {
+    const raw = localStorage.getItem("inteligis:integrations");
+    if (raw) webhookUrl = String(JSON.parse(raw)?.webhookUrl || "");
+  } catch {}
   const payload = {
     type: "lead_submit",
     project: "inteligis-energia-lp",
     timestamp: new Date().toISOString(),
     lead,
     tracking,
+    webhook_url: webhookUrl || undefined,
   };
 
   try {
@@ -60,10 +63,7 @@ export async function notifyLeadSubmission(lead: Lead): Promise<void> {
     }
     const res = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers: { "Content-Type": "application/json" },
       body: data,
       keepalive: true,
     });
@@ -78,10 +78,8 @@ export async function notifyLeadSubmission(lead: Lead): Promise<void> {
   }
 }
 
-export async function testWebhook(): Promise<{ ok: boolean; status?: number; body?: string }> {
-  const url = getEnv("VITE_LEADS_WEBHOOK_URL");
-  if (!url) return { ok: false };
-  const token = getEnv("VITE_LEADS_WEBHOOK_TOKEN");
+export async function testWebhook(urlOverride?: string): Promise<{ ok: boolean; status?: number; body?: string }> {
+  const url = "/api/leads-webhook";
   const tracking = collectTrackingSync();
   const lead: Lead = {
     id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
@@ -98,13 +96,11 @@ export async function testWebhook(): Promise<{ ok: boolean; status?: number; bod
     timestamp: new Date().toISOString(),
     lead,
     tracking,
+    webhook_url: urlOverride || undefined,
   };
   const res = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   let body: string | undefined;
