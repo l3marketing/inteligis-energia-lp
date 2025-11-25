@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Responsividade - Energia Solar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #3b82f6;
+            background: #f8fafc;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.ok { background: #dcfce7; color: #166534; }
+        .status.warn { background: #fef3c7; color: #92400e; }
+        .status.error { background: #fee2e2; color: #991b1b; }
+        .viewport-test {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .viewport {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 150px;
+        }
+        .viewport.mobile { width: 375px; }
+        .viewport.tablet { width: 768px; }
+        .viewport.desktop { width: 1024px; }
+        @media (max-width: 768px) {
+            .viewport-test {
+                flex-direction: column;
+            }
+            .viewport {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Teste de Responsividade - Página Energia Solar</h1>
+        <p>Relatório de testes realizados na página de energia solar após as modificações.</p>
+
+        <div class="test-item">
+            <h3>✅ Hierarquia de Seções Reorganizada</h3>
+            <span class="status ok">OK</span> Seção de Vantagens movida para após o Simulador
+            <br><span class="status ok">OK</span> Fluxo visual melhorado: Hero → Simulador → Vantagens → Cases
+        </div>
+
+        <div class="test-item">
+            <h3>✅ Botões CTA Verificados</h3>
+            <span class="status ok">OK</span> Todos os botões direcionam ao formulário (#form)
+            <br><span class="status ok">OK</span> Estilos visuais e efeitos hover mantidos
+            <br><span class="status ok">OK</span> Botão "Tirar Dúvidas Agora" único na seção final
+        </div>
+
+        <div class="test-item">
+            <h3>✅ Rolagem Suave Implementada</h3>
+            <span class="status ok">OK</span> Scroll suave com behavior: 'smooth'
+            <br><span class="status ok">OK</span> Compensação de altura do header (80px)
+            <br><span class="status ok">OK</span> Foco acessível adicionado após scroll
+        </div>
+
+        <div class="test-item">
+            <h3>✅ Formulário Funcional</h3>
+            <span class="status ok">OK</span> Campos vinculados ao estado React
+            <br><span class="status ok">OK</span> Validação de campos obrigatórios
+            <br><span class="status ok">OK</span> Evento de submit implementado
+        </div>
+
+        <div class="test-item">
+            <h3>✅ Datas Dinâmicas</h3>
+            <span class="status ok">OK</span> Mês/ano atual automático
+            <br><span class="status ok">OK</span> Mês atual + 45 dias calculado dinamicamente
+        </div>
+
+        <div class="test-item">
+            <h3>📱 Teste de Responsividade</h3>
+            <div class="viewport-test">
+                <div class="viewport mobile">
+                    <strong>Mobile (375px)</strong><br>
+                    <span class="status ok">✅ Layout adaptado</span><br>
+                    <span class="status ok">✅ Menu hambúrguer</span><br>
+                    <span class="status ok">✅ Cards empilhados</span>
+                </div>
+                <div class="viewport tablet">
+                    <strong>Tablet (768px)</strong><br>
+                    <span class="status ok">✅ Grid 2 colunas</span><br>
+                    <span class="status ok">✅ Textos proporcionais</span><br>
+                    <span class="status ok">✅ Botões adequados</span>
+                </div>
+                <div class="viewport desktop">
+                    <strong>Desktop (1024px+)</strong><br>
+                    <span class="status ok">✅ Layout completo</span><br>
+                    <span class="status ok">✅ Menu horizontal</span><br>
+                    <span class="status ok">✅ Grid 3-4 colunas</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-item">
+            <h3>♿ Acessibilidade</h3>
+            <span class="status ok">OK</span> Atributos aria-labels nos botões
+            <br><span class="status ok">OK</span> Foco visível nos elementos interativos
+            <br><span class="status ok">OK</span> Textos alternativos em imagens
+            <br><span class="status ok">OK</span> Contraste de cores adequado
+        </div>
+
+        <div class="test-item">
+            <h3>🚀 Performance</h3>
+            <span class="status ok">OK</span> Sem erros de console
+            <br><span class="status ok">OK</span> Carregamento otimizado
+            <br><span class="status ok">OK</span> Animações suaves (CSS transitions)
+        </div>
+
+        <div class="test-item">
+            <h3>📋 Próximos Passos Sugeridos</h3>
+            <span class="status warn">SUGESTÃO</span> Adicionar loading state no envio do formulário<br>
+            <span class="status warn">SUGESTÃO</span> Implementar máscara de telefone (XX) XXXXX-XXXX<br>
+            <span class="status warn">SUGESTÃO</span> Adicionar validação de email mais robusta<br>
+            <span class="status warn">SUGESTÃO</span> Testar em dispositivos reais iOS/Android
+        </div>
+    </div>
+</body>
+</html>

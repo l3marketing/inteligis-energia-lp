@@ -32,6 +32,17 @@ const SocialProof = () => {
     },
   ];
 
+  const annualFromMonthly = (text: string): string => {
+    try {
+      const cleaned = text.replace(/[^0-9,.]/g, "").replace(/\./g, "").replace(/,/g, ".");
+      const value = parseFloat(cleaned || "0");
+      const annual = value * 12;
+      return annual.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    } catch {
+      return "";
+    }
+  };
+
   const scrollToForm = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -82,8 +93,8 @@ const SocialProof = () => {
                       <div className="text-xs text-muted-foreground">redução</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-foreground">{item.migrationTime}</div>
-                      <div className="text-xs text-muted-foreground">migração</div>
+                      <div className="text-2xl font-bold text-foreground">{annualFromMonthly(item.savings)}</div>
+                      <div className="text-xs text-muted-foreground">economia anual</div>
                     </div>
                   </div>
                 </div>

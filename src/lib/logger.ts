@@ -5,8 +5,7 @@ type Level = "debug" | "info" | "warn" | "error";
 
 const make = (level: Level) => (...args: unknown[]) => {
   if (isDev || ENABLE_LOGS) {
-    // eslint-disable-next-line no-console
-    (console as any)[level](...args);
+    (console as Console)[level](...args);
   }
 };
 

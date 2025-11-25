@@ -1,6 +1,17 @@
 import { createClient } from "@supabase/supabase-js";
 
-export default async function handler(req: any, res: any) {
+type RequestLike = {
+  method?: string;
+  headers: Record<string, unknown>;
+  body?: unknown;
+  socket?: { remoteAddress?: string };
+};
+
+type ResponseLike = {
+  status: (code: number) => { send: (body: string) => void; json: (obj: unknown) => void };
+};
+
+export default async function handler(req: RequestLike, res: ResponseLike) {
   if (req.method !== "POST") {
     res.status(405).send("Method Not Allowed");
     return;
@@ -34,7 +45,7 @@ export default async function handler(req: any, res: any) {
           token = data.webhook_token || "";
         }
       }
-    } catch {}
+    } catch { void 0; }
   }
 
   const payload = { ...body, correlation_id: cid, client_ip: clientIp, ip_city: ipCity, ip_country: ipCountry, ip_region: ipRegion };
@@ -54,7 +65,7 @@ export default async function handler(req: any, res: any) {
     let text: string | undefined;
     try {
       text = await r.text();
-    } catch {}
+    } catch { void 0; }
     res.status(200).json({ ok: r.ok, status: r.status, body: text });
   } catch {
     res.status(200).json({ ok: false });

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Lead } from "@/lib/leads";
 import { getLeadMeta, fetchLeadMetaSupabase } from "@/lib/leadMeta";
+import type { LeadMeta } from "@/lib/leadMeta";
 import { useSupabase } from "@/lib/supabase";
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export default function LeadDetailsSheet({ open, onOpenChange, lead }: Props) {
-  const [metaJson, setMetaJson] = useState<any | null>(null);
+  const [metaJson, setMetaJson] = useState<LeadMeta | null>(null);
 
   useEffect(() => {
     if (!lead) {

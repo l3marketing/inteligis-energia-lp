@@ -41,7 +41,7 @@ const Footer = () => {
             <div className="space-y-2 text-sm text-white/80">
               <p>CNPJ: 52.104.343/0001-08</p>
               <p>Parceiro Oficial Auren e Cemig</p>
-              <p>Agente Registrado CCEE</p>
+              <p>Credenciado ao CREA São Paulo</p>
             </div>
           </div>
         </div>

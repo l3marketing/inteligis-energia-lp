@@ -6,8 +6,7 @@ import { collectTrackingSync } from "./tracking";
 // Nunca coloca segredos no código: tokens e URLs devem vir do .env
 
 function getEnv(name: string): string | undefined {
-  // import.meta.env retorna string | boolean | undefined; normalizamos para string
-  const v = (import.meta as any).env?.[name];
+  const v = (import.meta as unknown as { env?: Record<string, unknown> }).env?.[name];
   return v ? String(v) : undefined;
 }
 
@@ -21,7 +20,7 @@ function saveLastWebhook(payload: unknown, result: unknown): void {
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("inteligis:webhook_updated"));
     }
-  } catch {}
+  } catch { void 0; }
 }
 
 export function getLastWebhook(): { payload?: unknown; result?: unknown } {
@@ -41,7 +40,7 @@ export async function notifyLeadSubmission(lead: Lead): Promise<void> {
   try {
     const raw = localStorage.getItem("inteligis:integrations");
     if (raw) webhookUrl = String(JSON.parse(raw)?.webhookUrl || "");
-  } catch {}
+  } catch { void 0; }
   const payload = {
     type: "lead_submit",
     project: "inteligis-energia-lp",
@@ -54,10 +53,10 @@ export async function notifyLeadSubmission(lead: Lead): Promise<void> {
   try {
     // Tenta usar sendBeacon para não bloquear a UI; fallback para fetch
     const data = JSON.stringify(payload);
-    const canBeacon = typeof navigator !== "undefined" && (navigator as any).sendBeacon;
+    const canBeacon = typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function";
     if (canBeacon) {
       const blob = new Blob([data], { type: "application/json" });
-      (navigator as any).sendBeacon(url, blob);
+      navigator.sendBeacon(url, blob);
       saveLastWebhook(payload, { method: "beacon" });
       return;
     }
@@ -70,10 +69,9 @@ export async function notifyLeadSubmission(lead: Lead): Promise<void> {
     let body: string | undefined;
     try {
       body = await res.text();
-    } catch {}
+    } catch { void 0; }
     saveLastWebhook(payload, { method: "fetch", status: res.status, ok: res.ok, body });
   } catch (err) {
-    // Evita ruído: loga de forma branda
     console.warn("Falha ao enviar webhook de lead:", err);
   }
 }
@@ -106,7 +104,7 @@ export async function testWebhook(urlOverride?: string): Promise<{ ok: boolean; 
   let body: string | undefined;
   try {
     body = await res.text();
-  } catch {}
+  } catch { void 0; }
   saveLastWebhook(payload, { method: "fetch", status: res.status, ok: res.ok, body });
   return { ok: res.ok, status: res.status, body };
 }

@@ -18,7 +18,6 @@ export async function addLeadWithMeta(
     // Remoto: melhor esforço (não bloqueante)
     await upsertLeadMetaSupabase(saved.id, { tracking, formValues });
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.warn("Falha ao salvar metadados do lead (wrapper)", e);
   }
   return saved;

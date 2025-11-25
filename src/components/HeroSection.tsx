@@ -8,7 +8,7 @@ import { addLeadWithMeta } from "@/lib/leadCapture";
 import { notifyLeadSubmission } from "@/lib/notifications";
 import { trackEvent } from "@/lib/tracking";
 import { Shield, Award } from "lucide-react";
-import logoIntelgisisBranco from "@/assets/logo-inteligis-branco.svg";
+ 
 import heroEnergy from "@/assets/hero-energy.jpg";
 
 const HeroSection = () => {
@@ -89,14 +89,6 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 py-20 relative z-10">
-        {/* Logo no canto superior esquerdo */}
-        <div className="absolute top-8 left-4 md:left-8">
-          <img 
-            src={logoIntelgisisBranco} 
-            alt="Inteligis Energia" 
-            className="h-32 md:h-48 w-auto"
-          />
-        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mt-12 md:mt-0">
           {/* Left Column - Copy */}

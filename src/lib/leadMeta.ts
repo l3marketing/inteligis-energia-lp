@@ -29,8 +29,6 @@ export function saveLeadMeta(id: string, meta: Omit<LeadMeta, "id">): void {
       window.dispatchEvent(new CustomEvent("inteligis:lead_meta_updated", { detail: { id } }));
     }
   } catch (e) {
-    // Silencioso: nunca quebrar a captura por falha de meta
-    // eslint-disable-next-line no-console
     console.warn("Falha ao salvar LeadMeta", e);
   }
 }
@@ -49,7 +47,7 @@ export function getLeadMeta(id: string): LeadMeta | null {
 export function removeLeadMeta(id: string): void {
   try {
     localStorage.removeItem(key(id));
-  } catch {}
+  } catch { void 0; }
 }
 
 // Persistência remota (Supabase): tabela recomendada `lead_meta` com colunas:
@@ -64,13 +62,11 @@ export async function upsertLeadMetaSupabase(id: string, meta: Omit<LeadMeta, "i
     const payload: DbLeadMeta = { lead_id: id, meta: meta as unknown as Record<string, unknown> };
     const { error } = await supabase.from<DbLeadMeta>("lead_meta").upsert(payload, { onConflict: "lead_id" });
     if (error) {
-      // eslint-disable-next-line no-console
       console.error("Erro ao upsert lead_meta no Supabase:", error.message);
       return false;
     }
     return true;
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error("Falha ao salvar lead_meta no Supabase:", e);
     return false;
   }
@@ -85,15 +81,13 @@ export async function fetchLeadMetaSupabase(id: string): Promise<LeadMeta | null
       .eq("lead_id", id)
       .maybeSingle();
     if (error) {
-      // eslint-disable-next-line no-console
       console.error("Erro ao buscar lead_meta no Supabase:", error.message);
       return null;
     }
     if (!data) return null;
-    const result: LeadMeta = { id: data.lead_id, createdAt: data.created_at, ...(data.meta as any) };
+    const result: LeadMeta = { id: data.lead_id, createdAt: data.created_at, ...(data.meta as Record<string, unknown>) };
     return result;
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error("Falha ao buscar lead_meta no Supabase:", e);
     return null;
   }

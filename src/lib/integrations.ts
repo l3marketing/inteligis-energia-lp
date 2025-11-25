@@ -31,7 +31,7 @@ export async function loadIntegrations(): Promise<IntegrationState> {
           statuses: data.statuses ?? {},
         } as IntegrationState;
       }
-    } catch {}
+    } catch { void 0; }
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -65,7 +65,7 @@ export async function saveIntegrations(state: IntegrationState): Promise<void> {
       };
       const { error } = await supabase.from("integrations").upsert(payload, { onConflict: "id" });
       if (!error) return;
-    } catch {}
+    } catch { void 0; }
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
@@ -79,5 +79,5 @@ export function subscribeIntegrations(listener: () => void): () => void {
 export function broadcastIntegrationsUpdate(): void {
   try {
     window.dispatchEvent(new Event("inteligis:integrations_updated"));
-  } catch {}
+  } catch { void 0; }
 }

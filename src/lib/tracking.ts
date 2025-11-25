@@ -1,7 +1,9 @@
 // Util de captura de UTMs, cookies e metadados
 export type TrackingFields = Record<string, string>;
+const isBrowser = typeof window !== "undefined" && typeof document !== "undefined" && typeof navigator !== "undefined";
 
 const getQueryParams = (): Record<string, string> => {
+  if (!isBrowser) return {};
   const params = new URLSearchParams(window.location.search);
   const result: Record<string, string> = {};
   params.forEach((v, k) => (result[k] = v));
@@ -9,6 +11,7 @@ const getQueryParams = (): Record<string, string> => {
 };
 
 const getCookie = (name: string): string | null => {
+  if (!isBrowser) return null;
   const match = document.cookie.match(new RegExp(`(^|;\\s*)${name}=([^;]+)`));
   return match ? decodeURIComponent(match[2]) : null;
 };
@@ -25,6 +28,7 @@ const parseGaClientId = (ga: string | null): string | null => {
 };
 
 const getDeviceType = (): string => {
+  if (!isBrowser) return "unknown";
   const w = window.innerWidth;
   if (w <= 767) return "mobile";
   if (w <= 1024) return "tablet";
@@ -56,6 +60,23 @@ const getUTMs = (qp: Record<string, string>) => {
 
 const getFirstTouch = (qp: Record<string, string>) => {
   const key = "tracking:first_touch";
+  if (!isBrowser) {
+    return {
+      first_utm_source: qp.utm_source ?? "",
+      first_utm_medium: qp.utm_medium ?? "",
+      first_utm_campaign: qp.utm_campaign ?? "",
+      first_utm_term: qp.utm_term ?? "",
+      first_utm_content: qp.utm_content ?? "",
+      first_referrer: "",
+      first_landing_page_url: "",
+      first_landing_page_path: "",
+      first_touch_at: new Date().toISOString(),
+      first_gclid: qp.gclid ?? "",
+      first_fbclid: qp.fbclid ?? "",
+      first_ttclid: qp.ttclid ?? "",
+      first_li_fat_id: qp.li_fat_id ?? "",
+    } as TrackingFields;
+  }
   const existing = localStorage.getItem(key);
   if (existing) {
     try {
@@ -84,6 +105,17 @@ const getFirstTouch = (qp: Record<string, string>) => {
 };
 
 const getLastTouch = (qp: Record<string, string>) => {
+  if (!isBrowser) {
+    return {
+      referrer: "",
+      landing_page_url: "",
+      landing_page_path: "",
+      page_url: "",
+      page_path: "",
+      page_title: "",
+      last_touch_at: new Date().toISOString(),
+    } as TrackingFields;
+  }
   return {
     referrer: document.referrer ?? "",
     landing_page_url: window.location.href,
@@ -97,12 +129,12 @@ const getLastTouch = (qp: Record<string, string>) => {
 
 const getSessionMeta = () => {
   return {
-    user_agent: navigator.userAgent,
-    browser_language: navigator.language,
+    user_agent: isBrowser ? navigator.userAgent : "",
+    browser_language: isBrowser ? navigator.language : "",
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? "",
     timezone_offset: String(new Date().getTimezoneOffset()),
     device_type: getDeviceType(),
-    screen_resolution: `${window.screen.width}x${window.screen.height}`,
+    screen_resolution: isBrowser ? `${window.screen.width}x${window.screen.height}` : "",
   };
 };
 
@@ -181,13 +213,13 @@ export function trackEvent(
   } as Record<string, unknown>;
 
   try {
-    if (typeof window !== "undefined" && Array.isArray((window as any).dataLayer)) {
-      (window as any).dataLayer.push(payload);
+    const dl = (typeof window !== "undefined" ? (window as unknown as { dataLayer?: unknown[] }).dataLayer : undefined);
+    if (Array.isArray(dl)) {
+      dl.push(payload);
     }
-  } catch {}
+  } catch { void 0; }
 
   if (import.meta.env.DEV) {
-    // eslint-disable-next-line no-console
     console.debug("[trackEvent]", payload);
   }
 }

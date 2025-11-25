@@ -41,15 +41,26 @@ function writeLocal(users: AppUser[]): void {
 
 export async function getUsersAsync(): Promise<AppUser[]> {
   if (useSupabase) {
+    type UserRow = {
+      id: string;
+      auth_id?: string;
+      name?: string;
+      email?: string;
+      role?: string;
+      status?: string;
+      notes?: string;
+      created_at?: string;
+      updated_at?: string;
+    };
     const { data, error } = await supabase
-      .from("app_users")
+      .from<UserRow>("app_users")
       .select("id, auth_id, name, email, role, status, notes, created_at, updated_at")
       .order("created_at", { ascending: false });
     if (error) {
       console.error("Falha ao buscar usuários no Supabase:", error);
       return readLocal();
     }
-    return (data || []).map((u: any) => ({
+    return (data || []).map((u) => ({
       id: String(u.id),
       authId: u.auth_id ? String(u.auth_id) : undefined,
       name: String(u.name || ""),
